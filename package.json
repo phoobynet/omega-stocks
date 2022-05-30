@@ -18,11 +18,13 @@
     "main:dev": "NODE_ENV=development nodemon --watch ./main --ext js,cjs,mjs --exec 'electron .'"
   },
   "dependencies": {
-    "@phoobynet/alpaca-fluent": "1.0.87",
+    "konva": "^8.3.9",
+    "@phoobynet/alpaca-fluent": "1.0.88",
     "bootstrap": "^5.2.0-beta1",
     "electron-context-menu": "^3.1.2",
     "electron-devtools-installer": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
+    "numeral": "^2.0.6",
     "pinia": "^2.0.13",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14"
@@ -36,6 +38,7 @@
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/jsdom": "^16.2.14",
     "@types/node": "^16.11.36",
+    "@types/numeral": "^2.0.2",
     "@vitejs/plugin-vue": "^2.3.1",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
     "@vue/eslint-config-prettier": "^7.0.0",

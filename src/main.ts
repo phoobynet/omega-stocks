@@ -1,4 +1,5 @@
 import 'bootstrap/scss/bootstrap.scss'
+import '@/index.scss'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { router } from '@/routes/router'
