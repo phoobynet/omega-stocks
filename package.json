@@ -1,0 +1,86 @@
+{
+  "name": "omega-stocks",
+  "version": "0.0.1",
+  "main": "main/main.cjs",
+  "scripts": {
+    "build": "npm run renderer:build && npm run make",
+    "dev": "concurrently \"npm run renderer:dev\" \"npm run main:dev\"",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "renderer:dev": "vite",
+    "renderer:clean": "rimraf main/__ui/**",
+    "renderer:build": "npm run renderer:clean && vue-tsc --noEmit && vite build",
+    "renderer:preview": "vite preview --port 5050",
+    "renderer:test:unit": "vitest --environment jsdom",
+    "renderer:typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "main:dev": "NODE_ENV=development nodemon --watch ./main --ext js,cjs,mjs --exec 'electron .'"
+  },
+  "dependencies": {
+    "@phoobynet/alpaca-fluent": "1.0.87",
+    "bootstrap": "^5.2.0-beta1",
+    "electron-context-menu": "^3.1.2",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "pinia": "^2.0.13",
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.14"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@rushstack/eslint-patch": "^1.1.0",
+    "@types/jsdom": "^16.2.14",
+    "@types/node": "^16.11.36",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "@vue/test-utils": "^2.0.0-rc.20",
+    "@vue/tsconfig": "^0.1.3",
+    "concurrently": "^7.2.1",
+    "electron": "^19.0.1",
+    "eslint": "^8.5.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "jsdom": "^19.0.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "sass": "^1.52.1",
+    "typescript": "~4.6.3",
+    "vite": "^2.9.5",
+    "vitest": "^0.9.3",
+    "vue-tsc": "^0.34.7"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "omega_stocks"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
