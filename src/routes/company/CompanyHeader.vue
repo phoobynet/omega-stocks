@@ -5,7 +5,8 @@ import { storeToRefs } from 'pinia'
 import Money from '@/components/Money.vue'
 
 const companyStore = useCompanyStore()
-const { asset, trade, tickerObserverState } = storeToRefs(companyStore)
+const { asset, trade, tickerObserverState, previousDailyBar, priceChange } =
+  storeToRefs(companyStore)
 </script>
 
 <template>
@@ -22,6 +23,7 @@ const { asset, trade, tickerObserverState } = storeToRefs(companyStore)
       <div class="price-change">
         <div class="amount"></div>
         <div class="percent"></div>
+        <pre>{{ JSON.stringify(priceChange, null, 2) }}</pre>
       </div>
     </div>
   </header>

@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import type {
   Asset,
+  Bar,
+  NumberDiffResult,
   Ticker,
   TickerObserverCancel,
   TickerObserverState,
@@ -9,6 +11,7 @@ import type {
 import {
   assets,
   createTickerFrom,
+  numberDiff,
   tickerObserver,
 } from '@phoobynet/alpaca-fluent'
 
@@ -17,6 +20,8 @@ export const useCompanyStore = defineStore('companyStore', {
     return {
       asset: undefined as undefined | Asset,
       trade: undefined as undefined | Trade,
+      previousDailyBar: undefined as undefined | Bar,
+      priceChange: undefined as undefined | NumberDiffResult,
       loading: false,
       cancel: undefined as undefined | TickerObserverCancel,
       tickerObserverState: undefined as undefined | TickerObserverState,
@@ -35,6 +40,14 @@ export const useCompanyStore = defineStore('companyStore', {
         if (this.$state.asset) {
           this.$state.ticker = await createTickerFrom(this.$state.asset)
           this.$state.trade = await this.$state.ticker.trades.latest()
+          this.$state.previousDailyBar =
+            await this.$state.ticker.bars.previousDailyBar()
+          if (this.$state.previousDailyBar) {
+            this.$state.priceChange = numberDiff(
+              this.$state.previousDailyBar.c,
+              this.$state.trade.p,
+            )
+          }
         }
       } finally {
         this.$state.loading = false
@@ -50,6 +63,12 @@ export const useCompanyStore = defineStore('companyStore', {
         (state: TickerObserverState) => {
           this.$state.tickerObserverState = state
           this.$state.trade = state.trade
+          if (this.$state.previousDailyBar && state.trade) {
+            this.$state.priceChange = numberDiff(
+              this.$state.previousDailyBar.c,
+              state.trade.p,
+            )
+          }
         },
       )
     },
