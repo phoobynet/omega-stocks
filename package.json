@@ -18,7 +18,7 @@
     "main:dev": "NODE_ENV=development nodemon --watch ./main --ext js,cjs,mjs --exec 'electron .'"
   },
   "dependencies": {
-    "@phoobynet/alpaca-fluent": "1.0.89",
+    "@phoobynet/alpaca-fluent": "1.0.90",
     "@vueuse/core": "^8.5.0",
     "@vueuse/motion": "^2.0.0-beta.12",
     "@vueuse/shared": "^8.5.0",

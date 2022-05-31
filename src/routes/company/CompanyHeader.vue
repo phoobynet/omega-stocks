@@ -3,6 +3,7 @@ import Logo from '@/components/Logo.vue'
 import { useCompanyStore } from '@/stores/useCompanyStore'
 import { storeToRefs } from 'pinia'
 import Money from '@/components/Money.vue'
+import numeral from 'numeral'
 
 const companyStore = useCompanyStore()
 const { asset, trade, tickerObserverState, previousDailyBar, priceChange } =
@@ -20,10 +21,19 @@ const { asset, trade, tickerObserverState, previousDailyBar, priceChange } =
       <div>
         <money :amount="trade?.p" class="price" />
       </div>
-      <div class="price-change">
-        <div class="amount"></div>
-        <div class="percent"></div>
-        <pre>{{ JSON.stringify(priceChange, null, 2) }}</pre>
+      <div
+        class="price-change"
+        v-if="priceChange"
+        :class="{ up: priceChange?.sign > 0, down: priceChange?.sign < 0 }"
+      >
+        <div class="amount">
+          <money :amount="priceChange?.change" />
+        </div>
+        <div class="percent">
+          ({{
+            numeral(Math.abs(priceChange?.changePercent)).format('0,0.00%')
+          }})
+        </div>
       </div>
     </div>
   </header>
@@ -38,7 +48,7 @@ const { asset, trade, tickerObserverState, previousDailyBar, priceChange } =
     }
 
     .asset-name {
-      @apply text-3xl font-bold;
+      @apply text-4xl font-bold;
       &::before {
         content: ' - ';
       }
@@ -46,13 +56,13 @@ const { asset, trade, tickerObserverState, previousDailyBar, priceChange } =
   }
 
   .trade {
-    @apply flex flex-row space-x-2;
+    @apply flex flex-row space-x-2 items-baseline;
     .price {
-      @apply text-3xl tabular-nums font-bold;
+      @apply text-4xl tabular-nums font-bold mt-2;
     }
 
     .price-change {
-      @apply text-2xl;
+      @apply text-xl flex flex-row space-x-2;
 
       &.up {
         @apply text-green-500;
