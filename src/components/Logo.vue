@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
-const props = defineProps<{ ticker: string }>()
+const props = defineProps<{ ticker?: string }>()
 const logoUrl = computed(() => {
+  if (!props.ticker) {
+    return ''
+  }
+
   return new URL(`/logos/${props.ticker}.png`, import.meta.url).href
 })
 const hasError = ref<boolean>(false)
@@ -12,7 +16,7 @@ const onError = () => {
 </script>
 
 <template>
-  <div class="logo">
+  <div class="logo" v-if="ticker">
     <img
       v-if="!hasError"
       :src="logoUrl"
